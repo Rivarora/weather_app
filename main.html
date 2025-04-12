@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Vibes - Live</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="weather-container">
+      <h1 class="title">🌦️ Weather Vibes</h1>
+      <p id="datetime" class="datetime"></p>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Enter city or PIN code">
+        <button onclick="getWeather()">Search</button>
+      </div>
+     <div class="button-group">
+  <button class="location-btn" onclick="getUserLocation()">📍 Use My Location</button>
+  <a href="5day_forecast.html" class="hero-button">📅 5-Day Forecast</a>
+  <a href="about.html" class="about-btn">About Us</a>
+</div>
+
+
+      <div class="weather-box hidden" id="weatherBox">
+        <h2 id="location"></h2>
+        <img id="icon" src="" alt="Weather Icon">
+        <p id="temp"></p>
+        <p id="desc"></p>
+        <p id="quote"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  
+</body>
+</html>
