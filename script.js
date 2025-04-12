@@ -36,18 +36,17 @@ function displayWeather(data) {
   document.getElementById("icon").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
   document.getElementById("quote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
 }
-
 // Real-time Date & Time
 function updateDateTime() {
-  const now = new Date();
-  const dateTimeStr = now.toLocaleString("en-IN", {
-    weekday: 'long', year: 'numeric', month: 'short', day: 'numeric',
-    hour: '2-digit', minute: '2-digit', second: '2-digit'
-  });
-  document.getElementById("datetime").textContent = dateTimeStr;
-}
-setInterval(updateDateTime, 1000);
-updateDateTime();
+    const now = new Date();
+    const dateTimeStr = now.toLocaleString("en-IN", {
+      weekday: 'long', year: 'numeric', month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+    document.getElementById("datetime").textContent = dateTimeStr;
+  }
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
 
 // Auto location feature
 function getUserLocation() {
