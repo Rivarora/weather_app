@@ -35,7 +35,7 @@ function displayWeather(data) {
   document.getElementById("desc").textContent = `🔎 ${data.weather[0].description}`;
   document.getElementById("icon").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
   document.getElementById("quote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
-
+}
 
 // Real-time Date & Time
 function updateDateTime() {
