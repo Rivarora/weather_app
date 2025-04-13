@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-Day Forecast - Weather Vibes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(to right, #89CFF0, #A6E3E9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .cloud {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 60px 0 #fff, 30px -10px #fff, 90px 10px #fff;
+      opacity: 0.6;
+    }
+
+    .cloud.left {
+      animation: moveCloudsRight 60s linear infinite;
+    }
+
+    .cloud.right {
+      animation: moveCloudsLeft 60s linear infinite;
+    }
+
+    .cloud.left:nth-child(1) {
+      width: 120px;
+      height: 60px;
+      top: 100px;
+      left: -200px;
+      animation-delay: 0s;
+    }
+
+    .cloud.left:nth-child(2) {
+      width: 160px;
+      height: 80px;
+      top: 200px;
+      left: -300px;
+      animation-delay: 20s;
+    }
+
+    .cloud.right:nth-child(3) {
+      width: 120px;
+      height: 60px;
+      top: 150px;
+      right: -200px;
+      animation-delay: 10s;
+    }
+
+    .cloud.right:nth-child(4) {
+      width: 160px;
+      height: 80px;
+      top: 250px;
+      right: -300px;
+      animation-delay: 30s;
+    }
+
+    @keyframes moveCloudsRight {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(200vw); }
+    }
+
+    @keyframes moveCloudsLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-200vw); }
+    }
+
+    .forecast-container {
+      background-color: #d6f0fa;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      max-width: 900px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1f3c88;
+      margin-bottom: 30px;
+    }
+
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+    }
+
+    .forecast-card {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .forecast-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .date {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .icon {
+      font-size: 32px;
+      margin: 10px 0;
+    }
+
+    .temp {
+      color: #1f3c88;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cloud left"></div>
+  <div class="cloud left"></div>
+  <div class="cloud right"></div>
+  <div class="cloud right"></div>
+
+  <div class="forecast-container">
+    <h1>5-Day Forecast</h1>
+    <div class="forecast-grid" id="forecastGrid">
+      <!-- Forecast cards will be inserted here -->
+    </div>
+  </div>
+
+  <script>
+    const dummyForecast = [
+      { date: 'Tue, Apr 8', icon: '☀', temp: '24°C' },
+      { date: 'Wed, Apr 9', icon: '⛅', temp: '22°C' },
+      { date: 'Thu, Apr 10', icon: '☁', temp: '20°C' },
+      { date: 'Fri, Apr 11', icon: '⛈', temp: '19°C' },
+      { date: 'Sat, Apr 12', icon: '❄', temp: '17°C' },
+    ];
+
+    const grid = document.getElementById('forecastGrid');
+
+    dummyForecast.forEach(day => {
+      const card = document.createElement('div');
+      card.className = 'forecast-card';
+      card.innerHTML = `
+        <div class="date">${day.date}</div>
+        <div class="icon">${day.icon}</div>
+        <div class="temp">${day.temp}</div>
+      `;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+
+</html>
