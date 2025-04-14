@@ -199,7 +199,6 @@ body {
   }
   
   .about-btn {
-<<<<<<< HEAD
     padding: 12px 25px;
     font-size: 16px;
     font-family: 'Quicksand', sans-serif;
@@ -209,10 +208,9 @@ body {
     border-radius: 30px;
     text-decoration: none;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  }
-=======
+  
     background-color: #f59e0b;
-    color: white;
+    color:white;
   }
   
   .about-btn:hover {
@@ -220,4 +218,4 @@ body {
     transform: scale(1.05);
   }
   
->>>>>>> 0c52726db339bac7b41f4fe22ee38d51120988b2
+
