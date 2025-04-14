@@ -84,7 +84,10 @@
       max-width: 900px;
       width: 100%;
       position: relative;
-      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
     }
 
     h1 {
@@ -126,6 +129,28 @@
       color: #1f3c88;
       font-weight: bold;
     }
+
+    .back-btn {
+      margin-top: 30px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      align-self: center;
+    }
+
+    .back-btn:hover {
+      background-color: #f59e0b;
+      transform: scale(1.05);
+    }
+
   </style>
 </head>
 
@@ -140,6 +165,8 @@
     <div class="forecast-grid" id="forecastGrid">
       <!-- Forecast cards will be inserted here -->
     </div>
+    <!-- Back Button -->
+    <a href="main.html" class="back-btn">Back to Main</a>
   </div>
 
   <script>
@@ -156,7 +183,7 @@
     dummyForecast.forEach(day => {
       const card = document.createElement('div');
       card.className = 'forecast-card';
-      card.innerHTML = `
+      card.innerHTML = ` 
         <div class="date">${day.date}</div>
         <div class="icon">${day.icon}</div>
         <div class="temp">${day.temp}</div>
@@ -167,3 +194,4 @@
 </body>
 
 </html>
+
