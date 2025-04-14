@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather-Based Dynamic Background</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 1s ease;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 800px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+
+    .content {
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0369a1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Weather-Based Dynamic Background</h1>
+    <div class="content">
+      <p>Enter your city to get a background based on the current weather:</p>
+      <input type="text" id="cityInput" placeholder="Enter city name">
+      <button onclick="fetchWeather()">Get Weather</button>
+      <p id="weatherInfo"></p>
+    </div>
+  </div>
+
+  <script>
+    const apiKey = '50a302ec07f5e90f5d54a02dcd0c714a'; // Replace with your OpenWeatherMap API key
+
+    // Function to fetch the weather based on the city input
+    async function fetchWeather() {
+      const city = document.getElementById('cityInput').value.trim();
+      if (!city) {
+        alert('Please enter a city name.');
+        return;
+      }
+
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`City not found: ${response.statusText}`);
+        }
+        const data = await response.json();
+        const weatherCondition = data.weather[0].main.toLowerCase();
+        const temp = data.main.temp;
+
+        // Show weather data in the UI
+        document.getElementById('weatherInfo').innerText = `Current weather in ${city}: ${weatherCondition}, ${temp}°C`;
+
+        // Change the background based on weather condition
+        changeBackground(weatherCondition);
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
+        alert(error.message);
+      }
+    }
+
+    // Function to change the background based on weather condition
+    function changeBackground(weatherCondition) {
+      if (weatherCondition.includes('clear')) {
+        document.body.style.background = 'linear-gradient(135deg, #ff9a8b, #ff6a88)'; // Sunny
+      } else if (weatherCondition.includes('cloud')) {
+        document.body.style.background = 'linear-gradient(135deg, #bdc3c7, #2c3e50)'; // Cloudy
+      } else if (weatherCondition.includes('rain')) {
+        document.body.style.background = 'linear-gradient(135deg, #1e3a8a, #4e73df)'; // Rainy
+      } else if (weatherCondition.includes('snow')) {
+        document.body.style.background = 'linear-gradient(135deg, #dfe6f1, #cfd9df)'; // Snowy
+      } else if (weatherCondition.includes('thunder')) {
+        document.body.style.background = 'linear-gradient(135deg, #333, #444)'; // Thunderstorm
+      } else {
+        document.body.style.background = 'linear-gradient(135deg, #fbc2eb, #a6c1ee)'; // Default
+      }
+    }
+  </script>
+
+</body>
+</html>
