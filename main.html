@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,19 +10,19 @@
 <body>
   <div class="overlay">
     <div class="weather-container">
-      <h1 class="title">🌦️ Weather Vibes</h1>
+      <h1 class="title">🌦 Weather Vibes</h1>
       <p id="datetime" class="datetime"></p>
 
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Enter city or PIN code">
         <button onclick="getWeather()">Search</button>
       </div>
+
       <div class="button-group">
         <button class="location-btn" onclick="getUserLocation()">📍 Use My Location</button>
-        <a href="5day_forecast.html" class="hero-button">📅 5-Day Forecast</a>
+        <a href= "5dayforecast.html" class="hero-button">📅 5-Day Forecast</a>
         <a href="about.html" class="about-btn">About Us</a>
       </div>
-
 
       <div class="weather-box hidden" id="weatherBox">
         <h2 id="location"></h2>
@@ -31,11 +30,100 @@
         <p id="temp"></p>
         <p id="desc"></p>
         <p id="quote"></p>
+        
+        <!-- Temperature Toggle Button -->
+        <button id="toggleTempBtn" onclick="toggleTemperature()">Switch to °F</button>
       </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
-  
+  <script>
+    let isCelsius = true;  // Track the current unit (Celsius or Fahrenheit)
+    let tempCelsius = null; // To store the temperature in Celsius
+
+    // Function to toggle between Celsius and Fahrenheit
+    function toggleTemperature() {
+      const tempElement = document.getElementById("temp");
+      const toggleButton = document.getElementById("toggleTempBtn");
+
+      if (isCelsius) {
+        // Convert to Fahrenheit
+        const tempFahrenheit = (tempCelsius * 9/5) + 32;
+        tempElement.textContent = ${Math.round(tempFahrenheit)}°F;
+        toggleButton.textContent = "Switch to °C";
+      } else {
+        // Convert back to Celsius
+        tempElement.textContent = ${Math.round(tempCelsius)}°C;
+        toggleButton.textContent = "Switch to °F";
+      }
+
+      isCelsius = !isCelsius;  // Toggle the unit flag
+    }
+
+    // Function to fetch weather data
+    function getWeather() {
+      const searchInput = document.getElementById('searchInput').value;
+
+      // Example: Fetch weather from an API (replace with your own)
+      fetch(https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&appid=your_api_key&units=metric)
+        .then(response => response.json())
+        .then(data => {
+          // Example: Assuming the response has a main.temp in Celsius
+          const location = data.name;
+          const temp = data.main.temp;
+          const description = data.weather[0].description;
+          const iconCode = data.weather[0].icon;
+
+          // Set the temperature in Celsius and update the UI
+          tempCelsius = temp;  // Store temperature in Celsius
+          document.getElementById("location").textContent = location;
+          document.getElementById("temp").textContent = ${Math.round(tempCelsius)}°C;  // Initially in Celsius
+          document.getElementById("desc").textContent = description;
+          document.getElementById("icon").src = http://openweathermap.org/img/wn/${iconCode}.png;
+          document.getElementById("quote").textContent = "Stay hydrated and safe!";
+
+          // Make the weather box visible
+          document.getElementById("weatherBox").classList.remove("hidden");
+        })
+        .catch(error => {
+          console.error('Error fetching weather data:', error);
+        });
+    }
+
+    // Function to get weather using user's current location
+    function getUserLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          // Example: Fetch weather for user's location
+          fetch(https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=your_api_key&units=metric)
+            .then(response => response.json())
+            .then(data => {
+              const location = data.name;
+              const temp = data.main.temp;
+              const description = data.weather[0].description;
+              const iconCode = data.weather[0].icon;
+
+              tempCelsius = temp;  // Store temperature in Celsius
+              document.getElementById("location").textContent = location;
+              document.getElementById("temp").textContent = ${Math.round(tempCelsius)}°C;  // Initially in Celsius
+              document.getElementById("desc").textContent = description;
+              document.getElementById("icon").src = http://openweathermap.org/img/wn/${iconCode}.png;
+              document.getElementById("quote").textContent = "Stay hydrated and safe!";
+
+              // Make the weather box visible
+              document.getElementById("weatherBox").classList.remove("hidden");
+            })
+            .catch(error => {
+              console.error('Error fetching weather data:', error);
+            });
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+  </script>
 </body>
 </html>
