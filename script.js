@@ -91,7 +91,7 @@ function showError(error) {
 }
 
 function getWeatherByCoords(lat, lon) {
-  const apiKey = "YOUR_API_KEY"; // Replace with your OpenWeatherMap API key
+  const apiKey = "34cbac9a046105efb7e62a6405ea0d71"; // Replace with your OpenWeatherMap API key
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
   fetch(url)
