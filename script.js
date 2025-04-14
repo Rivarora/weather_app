@@ -24,11 +24,19 @@ function getWeather() {
     })
     .then(data => {
       document.getElementById("weatherBox").classList.remove("hidden");
+<<<<<<< HEAD
       document.getElementById("location").textContent = ${data.name}, ${data.sys.country};
       document.getElementById("temp").textContent = 🌡 ${data.main.temp} °C;
       document.getElementById("desc").textContent = 🔎 ${data.weather[0].description};
       document.getElementById("icon").src = https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png;
       document.getElementById("quote").textContent = "${quotes[Math.floor(Math.random() * quotes.length)]}";
+=======
+      document.getElementById("location").textContent = `${data.name}, ${data.sys.country}`;
+      document.getElementById("temp").textContent = `🌡️ ${data.main.temp} °C`;
+      document.getElementById("desc").textContent = `🔎 ${data.weather[0].description}`;
+      document.getElementById("icon").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+      document.getElementById("quote").textContent = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
+>>>>>>> 0c52726db339bac7b41f4fe22ee38d51120988b2
 
       // Set background based on weather
       const weather = data.weather[0].main.toLowerCase();
@@ -56,6 +64,18 @@ function updateDateTime() {
     hour: '2-digit', minute: '2-digit', second: '2-digit'
   });
   document.getElementById("datetime").textContent = dateTimeStr;
+<<<<<<< HEAD
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
+function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+=======
+>>>>>>> 0c52726db339bac7b41f4fe22ee38d51120988b2
 }
 setInterval(updateDateTime, 1000);
 updateDateTime();
@@ -66,6 +86,31 @@ function getUserLocation() {
     alert("Geolocation is not supported by this browser.");
   }
 }
+
+function showPosition(position) {
+  const lat = position.coords.latitude;
+  const lon = position.coords.longitude;
+  getWeatherByCoords(lat, lon);
+}
+
+function showError(error) {
+  switch (error.code) {
+    case error.PERMISSION_DENIED:
+      alert("User denied the request for Geolocation.");
+      break;
+    case error.POSITION_UNAVAILABLE:
+      alert("Location information is unavailable.");
+      break;
+    case error.TIMEOUT:
+      alert("The request to get user location timed out.");
+      break;
+    case error.UNKNOWN_ERROR:
+      alert("An unknown error occurred.");
+      break;
+  }
+}
+
+
 
 function showPosition(position) {
   const lat = position.coords.latitude;
