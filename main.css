@@ -157,3 +157,54 @@ body {
       opacity: 1;
     }
   }
+  .button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .button-group button,
+  .button-group a {
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: none;
+    cursor: pointer;
+  }
+  
+  .location-btn {
+    background-color: #10b981;
+    color: white;
+  }
+  
+  .location-btn:hover {
+    background-color: #059669;
+    transform: scale(1.05);
+  }
+  
+  .hero-button {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .hero-button:hover {
+    background-color: #2563eb;
+    transform: scale(1.05);
+  }
+  
+  .about-btn {
+    background-color: #f59e0b;
+    color: white;
+  }
+  
+  .about-btn:hover {
+    background-color: #d97706;
+    transform: scale(1.05);
+  }
+  
