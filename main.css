@@ -235,5 +235,15 @@ body {
     background: linear-gradient(to right, #3b82f6, #1d4ed8);
     transform: scale(1.05);
   }
+  .forecast-container {
+    border: 3px solid #1d3557;
+    border-radius: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    max-width: 1000px;
+    width: 100%;
+  }
+  
   
 
