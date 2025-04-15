@@ -13,8 +13,6 @@
     <div class="weather-container">
       <h1 class="title">🌦️ Weather Vibes</h1>
       <p id="datetime" class="datetime"></p>
-      
-
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Enter city or PIN code">
         <button onclick="getWeather()">Search</button>
@@ -27,6 +25,21 @@
         <!-- Weather Vibe Button -->
         <button class="weather-vibe-btn" onclick="location.href='chart.html'">
   🌦️ Weather Vibe
+  <body>
+    <div class="page-border">
+      <!-- Everything goes inside this div -->
+      <div class="forecast-container">
+        <h1>📅 5-Day Forecast</h1>
+        <div class="search-box">
+          <input type="text" id="cityInput" placeholder="Enter city name..." />
+          <button onclick="getForecast()">🔍 Search</button>
+        </div>
+        <div id="forecast" class="forecast-grid"></div>
+        <a href="index.html" class="back-btn">← Back to Main</a>
+      </div>
+    </div>
+  </body>
+  
 </button>
 
         
