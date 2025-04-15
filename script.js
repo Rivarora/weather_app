@@ -1,6 +1,7 @@
 const apiKey = "893971476f90297c35a0aab354c27d75"; // Replace with your API key
 
 const quotes = [
+  
   "Chase the sunshine, even on cloudy days.",
   "Every storm runs out of rain.",
   "Let your dreams be as vast as the sky.",
@@ -156,3 +157,34 @@ setInterval(updateClock, 1000);
 
 // Initialize clock immediately
 updateClock();
+// Theme toggle logic
+const toggleBtn = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Check saved theme on load
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  body.classList.add(savedTheme);
+  updateToggleText(savedTheme);
+} else {
+  body.classList.add('light'); // default to light theme
+}
+
+// Toggle button click
+toggleBtn.addEventListener('click', () => {
+  if (body.classList.contains('light')) {
+    body.classList.replace('light', 'dark');
+    localStorage.setItem('theme', 'dark');
+    updateToggleText('dark');
+  } else {
+    body.classList.replace('dark', 'light');
+    localStorage.setItem('theme', 'light');
+    updateToggleText('light');
+  }
+});
+
+// Update button text/icon
+function updateToggleText(theme) {
+  toggleBtn.textContent = theme === 'dark' ? '🌞 Light Mode' : '🌙 Dark Mode';
+}
+
