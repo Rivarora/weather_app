@@ -9,6 +9,31 @@ const quotes = [
   "Weather the storm with a smile."
 ];
 
+let isCelsius = true;
+let currentTempCelsius = null;
+
+function displayTemperature(tempC) {
+  currentTempCelsius = tempC;
+  const tempElement = document.getElementById("temp");
+  const toggleBtn = document.getElementById("toggleTemp");
+
+  if (isCelsius) {
+    tempElement.textContent = `🌡️ ${tempC.toFixed(1)} °C`;
+    if (toggleBtn) toggleBtn.textContent = "Switch to °F";
+  } else {
+    const tempF = (tempC * 9) / 5 + 32;
+    tempElement.textContent = `🌡️ ${tempF.toFixed(1)} °F`;
+    if (toggleBtn) toggleBtn.textContent = "Switch to °C";
+  }
+}
+
+function toggleTemperature() {
+  isCelsius = !isCelsius;
+  if (currentTempCelsius !== null) {
+    displayTemperature(currentTempCelsius);
+  }
+}
+
 function getWeather() {
   const input = document.getElementById("searchInput").value.trim();
   if (!input) return alert("Please enter a city or PIN code");
@@ -26,12 +51,14 @@ function getWeather() {
     .then(data => {
       document.getElementById("weatherBox").classList.remove("hidden");
       document.getElementById("location").textContent = `${data.name}, ${data.sys.country}`;
-      document.getElementById("temp").textContent = `🌡️ ${data.main.temp} °C`;
       document.getElementById("desc").textContent = `🔎 ${data.weather[0].description}`;
       document.getElementById("icon").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
       document.getElementById("quote").textContent = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
 
-      // Set background based on weather
+      // Store & display temperature
+      displayTemperature(data.main.temp);
+
+      // Background change
       const weather = data.weather[0].main.toLowerCase();
       const body = document.body;
       if (weather.includes("cloud")) {
@@ -49,7 +76,7 @@ function getWeather() {
     .catch(error => alert("Error fetching weather: " + error.message));
 }
 
-// Show date & time
+// Date and time
 function updateDateTime() {
   const now = new Date();
   const dateTimeStr = now.toLocaleString("en-IN", {
@@ -60,6 +87,8 @@ function updateDateTime() {
 }
 setInterval(updateDateTime, 1000);
 updateDateTime();
+
+// Geolocation
 function getUserLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -69,10 +98,9 @@ function getUserLocation() {
 }
 
 function showPosition(position) {
-  const lat = position.coords.latitude;
-  const lon = position.coords.longitude;
-  getWeatherByCoords(lat, lon);
+  const lat = position.coords
 }
+<<<<<<< HEAD
 
 function showError(error) {
   switch (error.code) {
@@ -188,3 +216,5 @@ function updateToggleText(theme) {
   toggleBtn.textContent = theme === 'dark' ? '🌞 Light Mode' : '🌙 Dark Mode';
 }
 
+=======
+>>>>>>> f14099384d2b19155ac9acc3034125bf2c5225c8
