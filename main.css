@@ -366,6 +366,23 @@ body.dark .credits {
 .credits-box a:hover {
   color: #ffd700; /* Gold on hover */
 }
+.ask-btn {
+  margin: 30px auto;
+  display: block;
+  padding: 15px 30px;
+  font-size: 1rem;
+  background-color: #ff7eb9;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: background 0.3s;
+}
+
+.ask-btn:hover {
+  background-color: #ff4f9b;
+}
 
 
 }

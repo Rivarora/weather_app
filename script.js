@@ -215,6 +215,9 @@ toggleBtn.addEventListener('click', () => {
 function updateToggleText(theme) {
   toggleBtn.textContent = theme === 'dark' ? '🌞 Light Mode' : '🌙 Dark Mode';
 }
+function askUser() {
+  alert("Hey there! How are you feeling today? 😊");
+}
 
 
 
