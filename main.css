@@ -399,6 +399,18 @@ li {
   0% { transform: translateY(100%); }
   100% { transform: translateY(-100%); }
 }
+.sun-icon {
+  position:fixed;
+  top: 20px; /* Adjust spacing from top */
+  left: 20px; /* Adjust spacing from left */
+  z-index: 1000; /* Keep it above other elements */
+}
+
+.sun-icon img{
+  width: 100px;
+  height: auto;
+}
+
 
 
 
