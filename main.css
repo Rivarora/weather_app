@@ -157,58 +157,47 @@ body {
       opacity: 1;
     }
   }
-
-  .hero-button {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 12px 25px;
-    font-size: 16px;
-    font-family: 'Quicksand', sans-serif;
-    text-decoration: none;
-    background: linear-gradient(to right, #6dd5fa, #2980b9);
-    color: #fff;
-    border: none;
-    border-radius: 30px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+  .button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
   }
   
-  .hero-button:hover {
-    background: linear-gradient(to right,);
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  }
-  .location-btn {
-    margin-top: 10px;
-    padding: 12px 25px;
-    font-size: 16px;
-    font-family: 'Quicksand', sans-serif;
-    background: linear-gradient(to right, #56ccf2, #2f80ed);
-    color: #fff;
+  .button-group button,
+  .button-group a {
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border: none;
-    border-radius: 30px;
     cursor: pointer;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    
+  }
+  
+  .location-btn {
+    background-color: #10b981;
+    color: white;
   }
   
   .location-btn:hover {
+    background-color: #059669;
     transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  }
-  .button-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 15px;
   }
   
-  .button-group a,
-  .button-group button {
-    width: 200px;
-    text-align: center;
+  .hero-button {
+    background-color: #3b82f6;
+    color: white;
   }
+  
+  .hero-button:hover {
+    background-color: #2563eb;
+    transform: scale(1.05);
+  }
+  
   .about-btn {
     padding: 12px 25px;
     font-size: 16px;
@@ -219,5 +208,32 @@ body {
     border-radius: 30px;
     text-decoration: none;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    
+  
+    background-color: #f59e0b;
+    color:white;
   }
+  
+  .about-btn:hover {
+    background-color: #d97706;
+    transform: scale(1.05);
+  }
+  .weather-vibe-btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(to right, #60a5fa, #3b82f6);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .weather-vibe-btn:hover {
+    background: linear-gradient(to right, #3b82f6, #1d4ed8);
+    transform: scale(1.05);
+  }
+  
+
