@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather Vibes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(to right, #83a4d4, #b6fbff);
+      background-size: cover;
+      background-position: center;
+      transition: background 1s ease-in-out;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .overlay {
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .weather-container {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      padding: 40px;
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1.5s ease;
+    }
+
+    .title {
+      font-size: 2.5rem;
+      color: #1e3a8a;
+      margin-bottom: 10px;
+    }
+
+    .greeting-text {
+      font-size: 1.2rem;
+      color: #475569;
+      margin-bottom: 10px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .datetime {
+      color: #333;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      justify-content: center;
+    }
+
+    .search-box input {
+      padding: 12px;
+      border-radius: 25px;
+      border: 1px solid #ccc;
+      width: 60%;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-box button {
+      padding: 12px 20px;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .search-box button:hover {
+      background-color: #0369a1;
+    }
+
+    .weather-box {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .weather-box img {
+      width: 100px;
+      margin: 10px 0;
+    }
+
+    .weather-box h2 {
+      font-size: 1.8rem;
+      color: #1e3a8a;
+    }
+
+    .weather-box p {
+      font-size: 1.2rem;
+      color: #333;
+      margin: 5px 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="weather-container">
+      <h1 class="title">🌦 Weather Vibes</h1>
+      <p id="greeting" class="greeting-text"></p>
+      <p id="datetime" class="datetime"></p>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Enter city or PIN code">
+        <button id="searchButton">Search</button>
+      </div>
+
+      <div class="weather-box hidden" id="weatherBox">
+        <h2 id="location"></h2>
+        <img id="icon" src="" alt="Weather Icon">
+        <p id="temp"></p>
+        <p id="desc"></p>
+        <p id="quote"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // GREETING LOGIC
+    function showGreeting() {
+      const greetingEl = document.getElementById("greeting");
+      const hour = new Date().getHours();
+      let greeting = "";
+
+      if (hour < 12) {
+        greeting = "Good Morning! ☀️";
+      } else if (hour < 18) {
+        greeting = "Good Afternoon! 🌤";
+      } else {
+        greeting = "Good Evening! 🌙";
+      }
+
+      greetingEl.textContent = greeting;
+    }
+
+    // WEATHER APP LOGIC
+    const apiKey = '50a302ec07f5e90f5d54a02dcd0c714a';
+
+    async function getWeather(city) {
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`City not found: ${response.statusText}`);
+        }
+        const data = await response.json();
+        updateWeatherInfo(data);
+        updateBackground(data.weather[0].main);
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
+        alert(error.message);
+      }
+    }
+
+    function updateWeatherInfo(data) {
+      const location = document.getElementById('location');
+      const temp = document.getElementById('temp');
+      const desc = document.getElementById('desc');
+      const icon = document.getElementById('icon');
+      const box = document.getElementById('weatherBox');
+
+      location.textContent = `${data.name}, ${data.sys.country}`;
+      temp.textContent = `Temperature: ${data.main.temp}°C`;
+      desc.textContent = `Condition: ${data.weather[0].description}`;
+      icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+      box.classList.remove("hidden");
+    }
+
+    function updateBackground(condition) {
+      const body = document.body;
+      let bg = '';
+
+      switch (condition.toLowerCase()) {
+        case 'clear':
+          bg = 'url("images/clear.jpg")';
+          break;
+        case 'clouds':
+          bg = 'url("images/cloudy.jpg")';
+          break;
+        case 'rain':
+          bg = 'url("images/rainy.jpg")';
+          break;
+        case 'snow':
+          bg = 'url("images/snowy.jpg")';
+          break;
+        case 'thunderstorm':
+          bg = 'url("images/thunderstorm.jpg")';
+          break;
+        default:
+          bg = 'url("images/default.jpg")';
+      }
+
+      body.style.backgroundImage = bg;
+    }
+
+    // SHOW TIME & GREETING
+    function showTime() {
+      const now = new Date();
+      const datetime = document.getElementById('datetime');
+      datetime.textContent = now.toLocaleString();
+    }
+
+    // INIT
+    document.getElementById('searchButton').addEventListener('click', () => {
+      const city = document.getElementById('searchInput').value.trim();
+      if (city) {
+        getWeather(city);
+      } else {
+        alert('Please enter a city name.');
+      }
+    });
+
+    // On page load
+    showGreeting();
+    showTime();
+  </script>
+</body>
+</html>

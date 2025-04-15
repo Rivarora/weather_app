@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Vibes - 5-Day Forecast</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0/dist/chartjs-plugin-zoom.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #87cefa, #f9f9f9);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      text-align: center;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      width: 60%;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-box button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .search-box button:hover {
+      background-color: #0369a1;
+    }
+
+    canvas {
+      margin-top: 20px;
+      width: 100%;
+      height: 400px;
+      max-width: 100%;
+    }
+
+    /* Back to App button style */
+    .back-btn {
+      margin-top: 30px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #f59e0b;
+      transform: scale(1.05);
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>5-Day Weather Forecast</h1>
+    <div class="search-box">
+      <input type="text" id="cityInput" placeholder="Enter city name">
+      <button onclick="fetchWeatherData()">Get Forecast</button>
+    </div>
+    <canvas id="forecastChart"></canvas>
+    <!-- Back to App button -->
+    <button class="back-btn" onclick="location.href='main.html'">Back to App</button>
+  </div>
+
+  <script>
+    const apiKey = '50a302ec07f5e90f5d54a02dcd0c714a'; // Replace with your OpenWeatherMap API key
+
+    // Fetch the weather data
+    async function fetchWeatherData() {
+      const city = document.getElementById('cityInput').value.trim();
+      if (!city) {
+        alert('Please enter a valid city name.');
+        return;
+      }
+
+      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}&_=${new Date().getTime()}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`City not found: ${response.statusText}`);
+        }
+        const data = await response.json();
+        if (data && data.list && data.list.length === 0) {
+          alert("No weather data available for this city. Please try again.");
+          return;
+        }
+        const forecastData = processForecastData(data);
+        renderChart(forecastData);
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
+        handleError(error);
+      }
+    }
+
+    // Display error message in the UI
+    function handleError(error) {
+      const errorMessage = document.createElement('div');
+      errorMessage.style.color = 'red';
+      errorMessage.style.fontSize = '1.2rem';
+      errorMessage.style.marginTop = '20px';
+      errorMessage.textContent = error.message;
+      document.querySelector('.container').appendChild(errorMessage);
+    }
+
+    // Process the raw forecast data to extract the temperatures
+    function processForecastData(data) {
+      const dailyData = {};
+      data.list.forEach(entry => {
+        const date = entry.dt_txt.split(' ')[0];
+        if (!dailyData[date]) {
+          dailyData[date] = {
+            temps: [],
+            minTemp: entry.main.temp,
+            maxTemp: entry.main.temp,
+          };
+        }
+        dailyData[date].temps.push(entry.main.temp);
+        dailyData[date].minTemp = Math.min(dailyData[date].minTemp, entry.main.temp);
+        dailyData[date].maxTemp = Math.max(dailyData[date].maxTemp, entry.main.temp);
+      });
+
+      const labels = Object.keys(dailyData);
+      const minTemps = labels.map(date => dailyData[date].minTemp);
+      const maxTemps = labels.map(date => dailyData[date].maxTemp);
+
+      return { labels, minTemps, maxTemps };
+    }
+
+    // Render the forecast chart with interactivity
+    function renderChart({ labels, minTemps, maxTemps }) {
+      const ctx = document.getElementById('forecastChart').getContext('2d');
+      if (window.forecastChart instanceof Chart) {
+        window.forecastChart.destroy();
+      }
+
+      window.forecastChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+              label: 'Min Temperature (°C)',
+              data: minTemps,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              fill: true,
+              tension: 0.1,
+            },
+            {
+              label: 'Max Temperature (°C)',
+              data: maxTemps,
+              borderColor: 'rgba(255, 99, 132, 1)',
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              fill: true,
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: '5-Day Temperature Forecast',
+              font: {
+                size: 18,
+              },
+            },
+            tooltip: {
+              callbacks: {
+                // Show the temperature value and date in the tooltip
+                label: function (context) {
+                  const date = context.label;
+                  const temp = context.raw;
+                  return `Date: ${date}, Temp: ${temp}°C`;
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Date',
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Temperature (°C)',
+              },
+              suggestedMin: Math.min(...minTemps) - 5,
+              suggestedMax: Math.max(...maxTemps) + 5,
+            },
+          },
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
+          zoom: {
+            enabled: true,
+            mode: 'xy',
+            speed: 0.1,
+          },
+        },
+      });
+    }
+  </script>
+  
+</body>
+
+</html>
+
