@@ -8,6 +8,31 @@ const quotes = [
   "Weather the storm with a smile."
 ];
 
+let isCelsius = true;
+let currentTempCelsius = null;
+
+function displayTemperature(tempC) {
+  currentTempCelsius = tempC;
+  const tempElement = document.getElementById("temp");
+  const toggleBtn = document.getElementById("toggleTemp");
+
+  if (isCelsius) {
+    tempElement.textContent = `🌡️ ${tempC.toFixed(1)} °C`;
+    if (toggleBtn) toggleBtn.textContent = "Switch to °F";
+  } else {
+    const tempF = (tempC * 9) / 5 + 32;
+    tempElement.textContent = `🌡️ ${tempF.toFixed(1)} °F`;
+    if (toggleBtn) toggleBtn.textContent = "Switch to °C";
+  }
+}
+
+function toggleTemperature() {
+  isCelsius = !isCelsius;
+  if (currentTempCelsius !== null) {
+    displayTemperature(currentTempCelsius);
+  }
+}
+
 function getWeather() {
   const input = document.getElementById("searchInput").value.trim();
   if (!input) return alert("Please enter a city or PIN code");
@@ -25,12 +50,14 @@ function getWeather() {
     .then(data => {
       document.getElementById("weatherBox").classList.remove("hidden");
       document.getElementById("location").textContent = `${data.name}, ${data.sys.country}`;
-      document.getElementById("temp").textContent = `🌡️ ${data.main.temp} °C`;
       document.getElementById("desc").textContent = `🔎 ${data.weather[0].description}`;
       document.getElementById("icon").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
       document.getElementById("quote").textContent = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
 
-      // Set background based on weather
+      // Store & display temperature
+      displayTemperature(data.main.temp);
+
+      // Background change
       const weather = data.weather[0].main.toLowerCase();
       const body = document.body;
       if (weather.includes("cloud")) {
@@ -48,7 +75,7 @@ function getWeather() {
     .catch(error => alert("Error fetching weather: " + error.message));
 }
 
-// Show date & time
+// Date and time
 function updateDateTime() {
   const now = new Date();
   const dateTimeStr = now.toLocaleString("en-IN", {
@@ -59,6 +86,8 @@ function updateDateTime() {
 }
 setInterval(updateDateTime, 1000);
 updateDateTime();
+
+// Geolocation
 function getUserLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -68,91 +97,5 @@ function getUserLocation() {
 }
 
 function showPosition(position) {
-  const lat = position.coords.latitude;
-  const lon = position.coords.longitude;
-  getWeatherByCoords(lat, lon);
+  const lat = position.coords
 }
-
-function showError(error) {
-  switch (error.code) {
-    case error.PERMISSION_DENIED:
-      alert("User denied the request for Geolocation.");
-      break;
-    case error.POSITION_UNAVAILABLE:
-      alert("Location information is unavailable.");
-      break;
-    case error.TIMEOUT:
-      alert("The request to get user location timed out.");
-      break;
-    case error.UNKNOWN_ERROR:
-      alert("An unknown error occurred.");
-      break;
-  }
-}
-
-function getWeatherByCoords(lat, lon) {
-  const apiKey = "34cbac9a046105efb7e62a6405ea0d71"; // Replace with your OpenWeatherMap API key
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      displayWeather(data);
-    })
-    .catch(error => {
-      console.error("Error fetching weather data:", error);
-    });
-}
-
-function displayWeather(data) {
-  document.getElementById("weatherBox").classList.remove("hidden");
-  document.getElementById("location").innerText = data.name;
-  document.getElementById("temp").innerText = `${data.main.temp}°C`;
-  document.getElementById("desc").innerText = data.weather[0].description;
-  document.getElementById("icon").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-  document.getElementById("quote").innerText = getMotivationalQuote(); // Optional
-}
-
-function getMotivationalQuote() {
-  const quotes = [
-    "Keep shining, no matter the weather!",
-    "You're as bright as the sun today ☀️",
-    "Let your dreams rain success 🌧️",
-    "Every storm passes. Stay strong!",
-  ];
-  return quotes[Math.floor(Math.random() * quotes.length)];
-}
-function updateClock() {
-  const now = new Date();
-  
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
-  let seconds = now.getSeconds();
-  
-  // AM/PM format
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  
-  // Convert 24-hour format to 12-hour format
-  hours = hours % 12;
-  hours = hours ? hours : 12; // The hour '0' should be '12'
-  
-  // Pad minutes and seconds with leading zeros
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  seconds = seconds < 10 ? '0' + seconds : seconds;
-
-  const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
-  
-  // Display time
-  document.getElementById('clock').textContent = timeString;
-
-  // Display the date in format: Day, Month Date, Year
-  const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-  const dateString = now.toLocaleDateString('en-US', options);
-  document.getElementById('date').textContent = dateString;
-}
-
-// Update the clock every second
-setInterval(updateClock, 1000);
-
-// Initialize clock immediately
-updateClock();
