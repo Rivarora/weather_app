@@ -284,7 +284,7 @@ header {
 
 /* Default (light theme) */
 body.light {
-  background: linear-gradient(135deg, #ff9a8b, #f7c0c2);
+  background: linear-gradient(135deg, #5642c4, #f7c0c2);
   color: #000;
 }
 
@@ -333,9 +333,5 @@ body.dark .theme-toggle {
 #toggleTemp:hover {
   background-color: #0077b6;
   transform: scale(1.05);
-
 }
-
-  
-  
-
+}
