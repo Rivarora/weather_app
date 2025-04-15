@@ -100,7 +100,7 @@ function getUserLocation() {
 function showPosition(position) {
   const lat = position.coords
 }
-<<<<<<< HEAD
+
 
 function showError(error) {
   switch (error.code) {
@@ -216,5 +216,4 @@ function updateToggleText(theme) {
   toggleBtn.textContent = theme === 'dark' ? '🌞 Light Mode' : '🌙 Dark Mode';
 }
 
-=======
->>>>>>> f14099384d2b19155ac9acc3034125bf2c5225c8
+
