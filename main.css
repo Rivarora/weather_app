@@ -235,7 +235,53 @@ body {
     background: linear-gradient(to right, #3b82f6, #1d4ed8);
     transform: scale(1.05);
   }
-  
+  /* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #ff9a8b, #f7c0c2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align items at the top */
+  height: 100vh;
+  color: #fff;
+  padding-top: 20px; /* Add some space at the top */
+}
+
+header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px; /* Space between clock and content below */
+}
+
+.clock-container {
+  text-align: center;
+}
+
+.clock {
+  font-size: 4rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 20px 40px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.date {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
   
   
 
