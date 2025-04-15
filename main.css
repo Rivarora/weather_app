@@ -9,7 +9,7 @@
 
 body {
   height: 100vh;
-  background: linear-gradient(to right, #83a4d4, #b6fbff);
+  background: linear-gradient(to right, #729bd6, #df76b0);
   background-size: cover;
   background-position: center;
   transition: background 1s ease-in-out;
