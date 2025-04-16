@@ -1,12 +1,38 @@
 const apiKey = "893971476f90297c35a0aab354c27d75"; // Replace with your API key
 
 const quotes = [
+  
   "Chase the sunshine, even on cloudy days.",
   "Every storm runs out of rain.",
   "Let your dreams be as vast as the sky.",
   "Sunshine is the best medicine.",
   "Weather the storm with a smile."
 ];
+
+let isCelsius = true;
+let currentTempCelsius = null;
+
+function displayTemperature(tempC) {
+  currentTempCelsius = tempC;
+  const tempElement = document.getElementById("temp");
+  const toggleBtn = document.getElementById("toggleTemp");
+
+  if (isCelsius) {
+    tempElement.textContent = `🌡️ ${tempC.toFixed(1)} °C`;
+    if (toggleBtn) toggleBtn.textContent = "Switch to °F";
+  } else {
+    const tempF = (tempC * 9) / 5 + 32;
+    tempElement.textContent = `🌡️ ${tempF.toFixed(1)} °F`;
+    if (toggleBtn) toggleBtn.textContent = "Switch to °C";
+  }
+}
+
+function toggleTemperature() {
+  isCelsius = !isCelsius;
+  if (currentTempCelsius !== null) {
+    displayTemperature(currentTempCelsius);
+  }
+}
 
 function getWeather() {
   const input = document.getElementById("searchInput").value.trim();
@@ -25,12 +51,14 @@ function getWeather() {
     .then(data => {
       document.getElementById("weatherBox").classList.remove("hidden");
       document.getElementById("location").textContent = `${data.name}, ${data.sys.country}`;
-      document.getElementById("temp").textContent = `🌡️ ${data.main.temp} °C`;
       document.getElementById("desc").textContent = `🔎 ${data.weather[0].description}`;
       document.getElementById("icon").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
       document.getElementById("quote").textContent = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
 
-      // Set background based on weather
+      // Store & display temperature
+      displayTemperature(data.main.temp);
+
+      // Background change
       const weather = data.weather[0].main.toLowerCase();
       const body = document.body;
       if (weather.includes("cloud")) {
@@ -48,7 +76,7 @@ function getWeather() {
     .catch(error => alert("Error fetching weather: " + error.message));
 }
 
-// Show date & time
+// Date and time
 function updateDateTime() {
   const now = new Date();
   const dateTimeStr = now.toLocaleString("en-IN", {
@@ -59,6 +87,8 @@ function updateDateTime() {
 }
 setInterval(updateDateTime, 1000);
 updateDateTime();
+
+// Geolocation
 function getUserLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -68,10 +98,9 @@ function getUserLocation() {
 }
 
 function showPosition(position) {
-  const lat = position.coords.latitude;
-  const lon = position.coords.longitude;
-  getWeatherByCoords(lat, lon);
+  const lat = position.coords
 }
+
 
 function showError(error) {
   switch (error.code) {
@@ -122,3 +151,73 @@ function getMotivationalQuote() {
   ];
   return quotes[Math.floor(Math.random() * quotes.length)];
 }
+function updateClock() {
+  const now = new Date();
+  
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+  let seconds = now.getSeconds();
+  
+  // AM/PM format
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  
+  // Convert 24-hour format to 12-hour format
+  hours = hours % 12;
+  hours = hours ? hours : 12; // The hour '0' should be '12'
+  
+  // Pad minutes and seconds with leading zeros
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+
+  const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
+  
+  // Display time
+  document.getElementById('clock').textContent = timeString;
+
+  // Display the date in format: Day, Month Date, Year
+  const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+  const dateString = now.toLocaleDateString('en-US', options);
+  document.getElementById('date').textContent = dateString;
+}
+
+// Update the clock every second
+setInterval(updateClock, 1000);
+
+// Initialize clock immediately
+updateClock();
+// Theme toggle logic
+const toggleBtn = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Check saved theme on load
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  body.classList.add(savedTheme);
+  updateToggleText(savedTheme);
+} else {
+  body.classList.add('light'); // default to light theme
+}
+
+// Toggle button click
+toggleBtn.addEventListener('click', () => {
+  if (body.classList.contains('light')) {
+    body.classList.replace('light', 'dark');
+    localStorage.setItem('theme', 'dark');
+    updateToggleText('dark');
+  } else {
+    body.classList.replace('dark', 'light');
+    localStorage.setItem('theme', 'light');
+    updateToggleText('light');
+  }
+});
+
+// Update button text/icon
+function updateToggleText(theme) {
+  toggleBtn.textContent = theme === 'dark' ? '🌞 Light Mode' : '🌙 Dark Mode';
+}
+function askUser() {
+  alert("Hey there! How are you feeling today? 😊");
+}
+
+
+

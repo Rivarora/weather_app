@@ -9,11 +9,19 @@
   <link rel="stylesheet" href="main.css" />
 </head>
 <body>
+  <button class="ask-btn" onclick="askUser()">👋 How are you?</button>
+
+
+  <button id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
+  <div class="clock-container">
+    <div class="clock" id="clock">Loading...</div>
+    <div class="date" id="date">Loading...</div>
+  </div>
+
   <div class="overlay">
     <div class="weather-container">
       <h1 class="title">🌦️ Weather Vibes</h1>
       <p id="datetime" class="datetime"></p>
-
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Enter city or PIN code">
         <button onclick="getWeather()">Search</button>
@@ -26,6 +34,7 @@
         <!-- Weather Vibe Button -->
         <button class="weather-vibe-btn" onclick="location.href='chart.html'">
   🌦️ Weather Vibe
+  
 </button>
 
         
@@ -33,15 +42,41 @@
       </div>
 
 
-      <div class="weather-box hidden" id="weatherBox">
-        <h2 id="location"></h2>
-        <img id="icon" src="" alt="Weather Icon">
-        <p id="temp"></p>
-        <p id="desc"></p>
-        <p id="quote"></p>
+     <!-- ...your existing code above... -->
+
+<div class="weather-box hidden" id="weatherBox">
+  <h2 id="location"></h2>
+  <img id="icon" src="" alt="Weather Icon">
+  <p id="temp"></p>
+  <p id="desc"></p>
+  <p id="quote"></p>
+  <p id="clouds"></p>
+
+  <!-- Temperature toggle button -->
+  <button id="toggleTemp" onclick="toggleTemperature()">Switch to °F</button>
+</div>
+
+<!-- ...your existing code below... -->
+
+
       </div>
     </div>
-  </div>
+    <div class="credits-container">
+      <h1>✨PROJECT MADE BY✨</h1>
+      <ul id="credits-list">
+        <!-- JS will inject credits here -->
+      </ul>
+      <p class="footer">&nbsp;&nbsp;Yakshi &nbsp;&nbsp;riva &nbsp;&nbsp;ritika &nbsp;&nbsp;Tishya
+      </p>
+    </div>
+    <div class="main-container">
+      <div class="sun-icon">
+        <img src="c:\Users\Win 10 Pro\Pictures\Screenshots\sun.png" alt=""sun icon>
+        <h1 style="margin-top:100px;"></h1>
+      </div>
+    </div>
+  
+  
 
   <script src="script.js"></script>
   
