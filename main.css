@@ -284,8 +284,8 @@ header {
 
 /* Default (light theme) */
 body.light {
-  background: linear-gradient(135deg, #5642c4, #f7c0c2);
-  color: #000;
+  background: linear-gradient(135deg, #7269a0, #071055);
+  color: #bfbbe6;
 }
 
 /* Dark theme */
@@ -399,17 +399,7 @@ li {
   0% { transform: translateY(100%); }
   100% { transform: translateY(-100%); }
 }
-.sun-icon {
-  position:fixed;
-  top: 20px; /* Adjust spacing from top */
-  left: 20px; /* Adjust spacing from left */
-  z-index: 1000; /* Keep it above other elements */
-}
 
-.sun-icon img{
-  width: 100px;
-  height: auto;
-}
 
 
 
