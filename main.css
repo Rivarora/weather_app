@@ -284,7 +284,7 @@ header {
 
 /* Default (light theme) */
 body.light {
-  background: linear-gradient(135deg, #7269a0, #071055);
+  background: linear-gradient(135deg, #7269a0, #c0c6f7);
   color: #bfbbe6;
 }
 
@@ -399,6 +399,78 @@ li {
   0% { transform: translateY(100%); }
   100% { transform: translateY(-100%); }
 }
+/* Reset and base styling */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: #1a1a2e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Clock container styling */
+.clock-container {
+  text-align: center;
+  background: #16213e;
+  padding: 40px 60px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+}
+
+/* Clock text */
+.clock {
+  font-size: 64px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Date text */
+.date {
+  font-size: 24px;
+  color: #ccc;
+}
+.activity-recommendation-btn {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-family: 'Quicksand', sans-serif;
+  background: linear-gradient(to right, #60a5fa, #3b82f6);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  text-decoration: none;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.activity-recommendation-btn:hover {
+  background: linear-gradient(to right, #3b82f6, #1d4ed8);
+  transform: scale(1.05);
+}
+.activity-recommendation-btn {
+  padding: 12px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  background-color: #3b82f6; /* Blue background, same as the other buttons */
+  color: white;
+}
+
+.activity-recommendation-btn:hover {
+  background-color: #2563eb; /* Darker blue on hover */
+  transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
 
 
 

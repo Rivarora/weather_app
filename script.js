@@ -218,6 +218,28 @@ function updateToggleText(theme) {
 function askUser() {
   alert("Hey there! How are you feeling today? 😊");
 }
+function updateClockAndDate() {
+  const now = new Date();
+}
 
+function showActivityRecommendations() {
+  // Assuming you already have weather information in your page, 
+  // especially the description of the weather in the element with id="desc"
+  const weatherDescription = document.getElementById('desc').innerText.toLowerCase();
 
+  let recommendation = "";
 
+  // Check the weather description and suggest activities
+  if (weatherDescription.includes("clear") || weatherDescription.includes("sunny") || weatherDescription.includes("bright")) {
+    recommendation = "It's sunny! Perfect day for swimming 🏊‍♂️.";
+  } else if (weatherDescription.includes("rain") || weatherDescription.includes("storm")) {
+    recommendation = "It's rainy. Stay indoors with a cozy movie 🎥.";
+  } else {
+    recommendation = "Weather looks okay! How about a nice walk or run outside? 🏃‍♂️";
+  }
+
+  // Display the recommendation as an alert (You could also choose to display it in a modal or another element)
+  alert(recommendation);
+}
+
+  
