@@ -478,3 +478,17 @@ body {
 
 
 }
+#toggleTemp {
+  background-color: #4CAF50;       /* Green background */
+  color: white;                    /* White text */
+  border: none;                    /* Remove border */
+  padding: 10px 20px;              /* Spacing inside button */
+  font-size: 16px;                 /* Font size */
+  border-radius: 8px;              /* Rounded corners */
+  cursor: pointer;                 /* Pointer on hover */
+  transition: background-color 0.3s ease;
+}
+
+#toggleTemp:hover {
+  background-color: #45a049;       /* Slightly darker on hover */
+}
